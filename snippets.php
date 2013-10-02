@@ -54,6 +54,28 @@ wp_reset_postdata();
 
 
 
+/* List Custom Taxonomy Terms
+ * Source: http://codex.wordpress.org/Function_Reference/get_terms
+ * Notes: Create a list of custom taxonomy terms each linked to their respective archive pages. 
+ * ----------------------------------------------------------------------------- */	
+ 
+function emm_list_custom_tax_terms($tax_slug) {
+	$terms = get_terms($tax_slug);
+	$tax = $terms[0]->taxonomy;
+	$count = count($terms);
+	if ( $count > 0 ){ ?>
+    <ul class="<?php echo $tax; ?>-list"><span class="tax-title"><?php echo(ucfirst($tax)); ?></span>
+	    <?php foreach ( $terms as $term ) { ?>
+	      <li><a href="<?php echo get_term_link($term); ?>"><?php echo $term->name; ?></a></li>
+	    <?php } ?>
+    </ul>
+	<?php }
+}
+
+
+
+
+
 
 /* ADD GOOGLE ANALYTICS TO THE FOOTER
  * Source: http://digwp.com/2010/03/wordpress-functions-php-template-custom-functions/
