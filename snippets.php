@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * WORDPRESS SNIPPETS
  * A list of code snippets I find myself using in almost every wordpress theme
  * ----------------------------------------------------------------------------- */
