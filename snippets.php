@@ -25,48 +25,36 @@ function sanitize($title) {
 
 
 /* POST PAGINATION
- * Source: http://digwp.com/2013/01/display-blog-posts-on-page-with-navigation/
- * Notes: Create pagination for posts on custom page templates. 
+ * Source: http://codex.wordpress.org/Function_Reference/paginate_links
+ * Notes: Create pagination for posts (of any type) on custom page templates. 
  * ----------------------------------------------------------------------------- */	
 
-//store wp_query in a variable
-$temp = $wp_query; $wp_query= null;
+$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;	
+$args = array(
+	'post_type' => 'post',
+	'posts_per_page' => 5,
+	'paged' => $paged,
+);
+$the_query = new WP_Query( $args );
 
-//set your parameters
-$wp_query = new WP_Query(); $wp_query->query('showposts=5' . '&paged='.$paged);
-while ($wp_query->have_posts()) : $wp_query->the_post();
-
-//your content here
-
+while ($the_query->have_posts()) : $the_query->the_post();
+// content within the loop...
 endwhile;
 
-//Pagination conditional statements
-if ($paged > 1) { ?>
-
-<nav id="nav-posts" class="navigation-post">
-	<div class="centered">
-		<div class="prev"><?php next_posts_link('Previous'); ?></div>
-		<div class="next"><?php previous_posts_link('Next'); ?></div>
-	</div>
-</nav>
-
-<?php } else { ?>
-
-<nav id="nav-posts" class="navigation-post">
-	<div class="centered">
-		<div class="prev"><?php next_posts_link('Previous'); ?></div>
-	</div>
-</nav>
-
-<?php } wp_reset_postdata(); ?>
+$big = 999999999; // need an unlikely integer
+echo paginate_links( array(
+	'base' => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
+	'format' => '?paged=%#%',
+	'current' => max( 1, get_query_var('paged') ),
+	'total' => $the_query->max_num_pages
+) );
+wp_reset_postdata();
 
 
 
 
 
 
-
-<?php
 /* ADD GOOGLE ANALYTICS TO THE FOOTER
  * Source: http://digwp.com/2010/03/wordpress-functions-php-template-custom-functions/
  * Notes: First, obviously you want to replace the “UA-123456-1” with your actual GA code. Second, you may want to check out the three currently available Analytics options (http://perishablepress.com/press/2010/01/24/3-ways-track-google-analytics/) and modify the code accordingly. Currently, this function is using the newer “ga.js” tracking code, but that is easily changed to either of the other methods.
@@ -80,7 +68,7 @@ function add_google_analytics() {
 	echo '</script>';
 }
 add_action('wp_footer', 'add_google_analytics');
-?>
+
  
  
  
