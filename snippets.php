@@ -80,10 +80,10 @@ function add_google_analytics() {
 	echo '</script>';
 }
 add_action('wp_footer', 'add_google_analytics');
+?>
  
  
  
  
  
- 
-<?php // END //////////// ?>
+<?php /* END */ ?>
