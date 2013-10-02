@@ -15,7 +15,7 @@
 
 function sanitize($title) {
 	$chacters = array('&','.',',','/',':',';','(',')','!','@','#','$','%','*','_','+','=','|','[',']','{','}');
-	$title_clean = str_replace($chacters, '', strtolower(str_replace(' ', '-', $title)));
+	$title_clean = strtolower(str_replace($chacters, '', str_replace(' ', '-', $title)));
 	echo $title_clean;
 }
 
