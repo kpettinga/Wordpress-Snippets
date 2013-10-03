@@ -56,11 +56,16 @@ wp_reset_postdata();
 
 /* List Custom Taxonomy Terms
  * Source: http://codex.wordpress.org/Function_Reference/get_terms
- * Notes: Create a list of custom taxonomy terms each linked to their respective archive pages. 
+ * Notes: Create a list of custom taxonomy terms each linked to their respective archive pages.
+ *
+ * $tax_slug 	(string/required)					The slug of the taxonomy you're wanting to call
+ * $show_title  (boolean/required)					Whether or not to show the title of the taxonomy at the beginning of the list.
+ * $exclude 	(integer|string|array/optional) 	An array of term ids to exclude. Also accepts a string of comma-separated ids.
+ *
  * ----------------------------------------------------------------------------- */	
  
-function emm_list_custom_tax_terms($tax_slug, $show_title) {
-	$terms = get_terms($tax_slug);
+function emm_list_custom_tax_terms($tax_slug, $show_title, $exclude) {
+	$terms = get_terms($tax_slug, array('exclude'=>$exclude));
 	$tax = $terms[0]->taxonomy;
 	$count = count($terms);
 	if ( $count > 0 ){ ?>
