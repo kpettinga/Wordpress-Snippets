@@ -59,12 +59,13 @@ wp_reset_postdata();
  * Notes: Create a list of custom taxonomy terms each linked to their respective archive pages. 
  * ----------------------------------------------------------------------------- */	
  
-function list_custom_tax_terms($tax_slug) {
+function emm_list_custom_tax_terms($tax_slug, $show_title) {
 	$terms = get_terms($tax_slug);
 	$tax = $terms[0]->taxonomy;
 	$count = count($terms);
 	if ( $count > 0 ){ ?>
-    <ul class="<?php echo $tax; ?>-list"><span class="tax-title"><?php echo(ucfirst($tax)); ?></span>
+    <ul class="<?php echo $tax; ?>-list">
+    	<?php if($show_title == true) { ?><span class="tax-title"><?php echo(ucfirst($tax)); ?></span><?php } ?>
 	    <?php foreach ( $terms as $term ) { ?>
 	      <li><a href="<?php echo get_term_link($term); ?>"><?php echo $term->name; ?></a></li>
 	    <?php } ?>
