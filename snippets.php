@@ -59,7 +59,7 @@ wp_reset_postdata();
  * Notes: Create a list of custom taxonomy terms each linked to their respective archive pages. 
  * ----------------------------------------------------------------------------- */	
  
-function emm_list_custom_tax_terms($tax_slug) {
+function list_custom_tax_terms($tax_slug) {
 	$terms = get_terms($tax_slug);
 	$tax = $terms[0]->taxonomy;
 	$count = count($terms);
@@ -71,6 +71,27 @@ function emm_list_custom_tax_terms($tax_slug) {
     </ul>
 	<?php }
 }
+
+
+
+
+
+/* Pre Get Posts
+ * Source: http://codex.wordpress.org/Plugin_API/Action_Reference/pre_get_posts
+ * Notes: Alter the main loop for specific pages on your site. 
+ * ----------------------------------------------------------------------------- */	
+function function_name( $query ) {
+	
+	//example code
+    if ( is_admin() || ! $query->is_main_query() )
+        return;
+	
+    if ( is_tax( 'offering' ) ) {
+        $query->set( 'posts_per_page', -1 );
+        return;
+    }
+}
+add_action( 'pre_get_posts', 'function_name' );
 
 
 
