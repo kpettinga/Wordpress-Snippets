@@ -72,7 +72,7 @@ function emm_list_custom_tax_terms($tax_slug, $show_title, $exclude) {
     <ul class="<?php echo $tax; ?>-list custom-tax-list">
     	<?php if($show_title == true) { ?><span class="tax-title"><?php echo(ucfirst($tax)); ?></span><?php } ?>
 	    <?php foreach ( $terms as $term ) { ?>
-	      <li><a href="<?php echo get_term_link($term); ?>"><?php echo $term->name; ?></a></li>
+	      <li><a href="<?php echo get_term_link($term); ?>" data-name="<?php echo $term->slug; ?>"><?php echo $term->name; ?></a></li>
 	    <?php } ?>
     </ul>
 	<?php }
