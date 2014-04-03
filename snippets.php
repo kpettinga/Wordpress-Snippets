@@ -13,10 +13,10 @@
  * Notes: strips a string of an extra characters and replaces spaces with '-'. Useful for converting strings into hash tags for links.
  * ----------------------------------------------------------------------------- */	
 
-function sanitize($title) {
+function sanitized($title) {
 	$chacters = array('&','.',',','/',':',';','(',')','!','@','#','$','%','*','_','+','=','|','[',']','{','}');
 	$title_clean = strtolower(str_replace($chacters, '', str_replace(' ', '-', $title)));
-	echo $title_clean;
+	return $title_clean;
 }
 
 
@@ -64,7 +64,7 @@ wp_reset_postdata();
  *
  * ----------------------------------------------------------------------------- */	
  
-function emm_list_custom_tax_terms($tax_slug, $show_title, $exclude) {
+function list_custom_tax_terms($tax_slug, $show_title, $exclude) {
 	$terms = get_terms($tax_slug, array('exclude'=>$exclude));
 	$tax = $terms[0]->taxonomy;
 	$count = count($terms);
@@ -87,11 +87,9 @@ function emm_list_custom_tax_terms($tax_slug, $show_title, $exclude) {
  * Notes: Alter the main loop for specific pages on your site. 
  * ----------------------------------------------------------------------------- */	
 function function_name( $query ) {
-	
 	//example code
     if ( is_admin() || ! $query->is_main_query() )
         return;
-	
     if ( is_tax( 'offering' ) ) {
         $query->set( 'posts_per_page', -1 );
         return;
@@ -108,7 +106,6 @@ add_action( 'pre_get_posts', 'function_name' );
  * Source: http://digwp.com/2010/03/wordpress-functions-php-template-custom-functions/
  * Notes: First, obviously you want to replace the “UA-123456-1” with your actual GA code. Second, you may want to check out the three currently available Analytics options (http://perishablepress.com/press/2010/01/24/3-ways-track-google-analytics/) and modify the code accordingly. Currently, this function is using the newer “ga.js” tracking code, but that is easily changed to either of the other methods.
  * ----------------------------------------------------------------------------- */	
-
 function add_google_analytics() {
 	echo '<script src="http://www.google-analytics.com/ga.js" type="text/javascript"></script>';
 	echo '<script type="text/javascript">';
@@ -121,6 +118,28 @@ add_action('wp_footer', 'add_google_analytics');
  
  
  
+ 
+
+/* Change excerpt 'more' string 
+ * ----------------------------------------------------------------------------- */
+function new_excerpt_more( $more ) {
+	return ' ... <a href="'.get_permalink().'" class="read-more">continue »</a>';
+}
+add_filter('excerpt_more', 'new_excerpt_more');
+
+ 
+
+
+
+
+/* Change path to up loads folder 
+ * ----------------------------------------------------------------------------- */
+add_filter( 'pre_option_upload_url_path', 'new_uploads_url' );
+
+function new_uploads_url()
+{
+    return 'http://www.example.com/wp-content/uploads';
+} 
  
  
 <?php /* END */ ?>
